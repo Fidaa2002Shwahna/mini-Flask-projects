@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python Flask CRUD Application</title>
+  <link rel="shortcut icon" href="/static/teacher.png" />
+  <!-- Include Bootstrap -->
+  <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+</head>
+
+<body>
+  {% block body %}
+  <div class="container">
+    <div class="well text-center">
+      <h1>Python Flask CRUD Application</h1>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col md-12">
+          <h2>
+            Student List:<button class="btn btn-success pull-right" data-toggle="modal" data-target="#mymodal">
+              Add Student Data
+            </button>
+          </h2>
+          {% with messages = get_flashed_messages() %} {% if messages %} {%
+          for message in messages %}
+          <div class="alert alert-success alert-dismissabl" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="close">
+              <span aria-hidden="true">X</span>
+            </button>
+            <p>{{ message }}</p>
+          </div>
+          {% endfor %} {% endif %} {% endwith %}
+
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Serial</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for row in students%}
+              <tr>
+                <th scope="row">{{row.0}}</th>
+                <td>{{row.1}}</td>
+                <td>{{row.2}}</td>
+                <td>{{row.3}}</td>
+                <td>
+                  <a href="/delete/{{row.0}}" class="btn btn-danger btn-sm"
+                    onclick="return confirm('Are you sure to delete?')">Delete</a>
+                </td>
+              </tr>
+              {%endfor%}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+
+      <!-- insert model -->
+      <div id="mymodal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">
+                &times;
+              </button>
+              <h4 class="modal-title">Please Insert Data</h4>
+            </div>
+            <div class="modal-body">
+              <form action="{{ url_for('insert') }}" method="post">
+                <div class="form-group">
+                  <label for="name">Name:</label>
+                  <input type="text" class="form-control" name="name" required="1" />
+                </div>
+                <div class="form-group">
+                  <label for="email">Email:</label>
+                  <input type="email" class="form-control" name="email" required="1" />
+                </div>
+                <div class="form-group">
+                  <label for="phone">Phone:</label>
+                  <input type="text" class="form-control" name="phone" required="1" />
+                </div>
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary">
+                    Insert Data
+                  </button>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- insert model -->
+    </div>
+    {% endblock %}
+
+    <!-- footer model -->
+    <div class="well">
+      <h3>
+        Website: www.fidaa.com
+        <span class="pull-right">Like Us: www.facebook.com</span>
+      </h3>
+    </div>
+    <!-- footer model -->
+  </div>
+
+  <script src="/static/js/jquery-3.2.1.min.js"></script>
+  <script src="/static/js/bootstrap.min.js"></script>
+</body>
+
+</html>
